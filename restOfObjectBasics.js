@@ -1,5 +1,6 @@
 //----------------------------------------------------------
-// new Operator- allows to create many similar objects
+//              new Operator
+//m allows to create many similar objects
 // uses constructor functions to do , take this example
 
 function User(username){//constructor are named with a capital
@@ -60,9 +61,28 @@ console.log(accumulator.value);
 
 
 //----------------------------------------------------------
+//          Optional chaining
+let element = document.querySelector('.elem').innerHTML;
+//in the above case if no element with class .elem exists then the result is null and will through and error, however if it were undefined then no further problems would occur
+element = document.querySelector('.elem')?.innerHTML;
+//this code will return undefined if .elem doesn't exist
+//operator  -->>>> ?.
+//note that only the value before ?. is optional, so in
+console.log(user?.address.street)// it is okay for user to 
+//not exist(although user must be a declared variable), but 
+//once a user, does, so must the address 
+//and the street, else error occurs.
+
+
+//use ?.() to check for methods and  ?.[] for properties
 
 //----------------------------------------------------------
+//              Symbol Type
+//Leaving this for now. Seems to too technical, will come back
+// later when basics are covered
 
 //----------------------------------------------------------
+//          Object To primitive Conversions
+// doesn't seem very important, will return when needed.
+// use http://www.adequatelygood.com/Object-to-Primitive-Conversions-in-JavaScript.html
 
-//----------------------------------------------------------
