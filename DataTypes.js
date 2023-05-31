@@ -304,22 +304,42 @@ function sumInput(){
 }
 
 
-// solve the maximal subarray problem in o(n^2) or less
-// approach - keep splitting arr into two halves(left and 
-//right), until each sub arr is one elem 
-// if elem is neg, ignore it
-// if not, then it is the maximal subarray
-// start joining halves, left and right
-// 2 situations,
-// subarrays are adjacent in which case new max is the sum
-// of the both of those
-//, or not at the common boundary, let the helper function
-// add them
 
-//approach for the helper function
-//given two array along with their left and right index of max
-//sub array and max sum, if right of first is its end and the
-//left of second is its beginning, then the new max is their 
-// sum and the new right and new left are what they seem
-// else, the new max is the is the greater max
-// what to do if both are equal?
+
+//possible sizes of max subarray sum include zero to 
+//length of arr
+// for each size, look up the largest, the among those, 
+// select the largest
+
+function maxSub(arr){
+    let thisSizeLargest = 0;
+    let innerlargest = [];
+    let largest = 0;
+    for(let i = 1; i<= arr.length; i++){
+        for(let j = 0; j< arr.length; j++){
+            if(findSum(arr, j, j+i) > thisSizeLargest){
+                thisSizeLargest = findSum(arr, j, i+j);
+            }
+        }
+        innerlargest[i-1] = thisSizeLargest;
+    }
+    for(let i = 0; i< innerlargest.length; i++){
+        if(innerlargest[i] > largest){
+            largest = innerlargest[i]
+        }
+    }
+}
+function findSum (myarr, left, right){
+    let sum = 0;
+    for(let i= left; i< right; i++){
+        sum += myarr[i];
+    }
+    return sum;
+}
+
+// Although this works, it is very slow, O(n^2)
+
+//quicker solution would be to pass through the elements
+// adding them and keeping a partial sum stored in an array. 
+//As soon as your sum becomes neg, set partial sum to zero
+// and keep choosing using Math.max()
