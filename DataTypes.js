@@ -140,7 +140,7 @@ console.log("how are you?".length)//12
 console.log("something or else"[10]);//"o"-str at index 10
 console.log("something or else".at(10)) //"o"-str at index 10
 console.log("something or else".charAt(10))//returns str
-
+"str".at(-1);; // will give r
 
 //convert toUpperCase() or toLowerCase()
 console.log("something or else".toUpperCase())
@@ -190,7 +190,136 @@ for(let i = 0; i<= 220; i++){
 console.log(str)
 
 //!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
-// ---------------------------------------------------------
 
 //this is helpful in remembering comparisons
 console.log("a" > "A")// true
+
+//to repeat, use str.repeate(n)
+console.log("HI" + "!".repeat(10))//HI!!!!!!!!!!
+//to trim whitespace, use str.trim
+console.log("    *writing  *    ".trim()) //*writing  *
+
+// search involves regular expression, so that will come
+
+
+//function to return str back with the first character Upper
+//cased
+
+function ucFirst(str){
+    return str.slice(0, 1).toUpperCase() + str.slice(1, str.length)
+}
+//check for inclusion of viagra or XXX
+function checkSpam(str){
+    return (str.toLowerCase().includes('viagra') || str.toLowerCase().includes('xxx')? true:false)
+}
+
+//function to truncate a string by adding ellipsis ... at the 
+// end to meet the required string length
+function truncate(str, maxlength){
+    if(str.length <= maxlength){
+        return str
+    }else{
+        return str.slice(0, maxlength-1) + "..."
+    }
+}
+
+//function to convert money strings into numbers
+function extractCurrencyValue(str){
+    if(str.charAt(0) === '$'){
+        if(Number(str.slice(1)) !== NaN){
+            return Number(str.slice(1)) 
+        }else return "not a valid input"
+    }else{
+        if(Number(str.slice(1)) !== NaN){
+            return Number(str.slice(0)) 
+        }else return "not a valid input"
+    }
+}
+// ---------------------------------------------------------
+//                  ARRAYS - are just objects
+let arr1 = ["apple ", "bear", "banana", "cream", "h", "six ",
+            "s", "three"]
+//or 
+let arr2 = new Array("something", 1, "the other one");
+let fancyarr = new Array(2);//creates empty arr of len 2
+
+
+//finding length using
+arr1.length
+//note that length is writable i.e if I do
+// arr1.length = 2, then arr1 = [ "apple", "bear"]
+// and then if I do arr1.length = 5, and arr1[4] gives 
+// undefined
+
+// search using
+arr1[1];//note negative vals not allowed in []
+arr1.at(1)//can use neg vals, will read from the last if so.
+arr1.at(-1)// returns the last elem
+
+//push-> add to the last, pop->delete from the last
+//both change the array, pop returns the elem, push returns
+//the index to which it was added.
+arr1.pop()//
+arr1.push("something")
+
+//shift-> remove from the front, unshift->add to the front
+//returns the elem
+arr1.shift()//removes the first elem and returns it
+arr1.unshift("one","two")//adds at front,returns new length
+
+//push pop are faster(usually) than shift unshift
+
+//loops- basic, for (let elem of array ) -> cycles through elem
+for(let elem of arr1) console.log(elem + " bing! ")
+
+
+//another kind of loop exists for(let key in obj) 
+// this cycles through all the properties
+let testingobj = [1, 2, 3, 4, 5]
+testingobj["lord"] = "fraud";
+testingobj.whatever = "whatchagonnado"
+testingobj.setshit = {"a": 2222, "hehe": 444324423}
+//Above stuff is legal since ARRAYS are objects
+let emptystr = ""
+for(let key in testingobj) emptystr += key + ", "
+//'0, 1, 2, 3, 4, lord, whatever, setshit, '
+
+//cant compare arrays using == or even ===, have to use loops
+
+//function to take valid numberic user input and return the sum
+
+function sumInput(){
+    let arr = []
+    while(true){
+        let x = prompt("Enter a number")
+        let sum = 0;
+        if(x === null || x === "" || isNaN(x)){
+            for(let val in arr) sum += (val);
+            return sum;
+        }
+        
+        arr.push(Number(x))
+
+    }
+}
+
+
+// solve the maximal subarray problem in o(n^2) or less
+// approach - keep splitting arr into two halves(left and 
+//right), until each sub arr is one elem 
+// if elem is neg, ignore it
+// if not, then it is the maximal subarray
+// start joining halves, left and right
+// 2 situations,
+// subarrays are adjacent in which case new max is the sum
+// of the both of those
+//, or not at the common boundary, let the helper function
+// add them
+
+//approach for the helper function
+//given two array along with their left and right index of max
+//sub array and max sum, if right of first is its end and the
+//left of second is its beginning, then the new max is their 
+// sum and the new right and new left are what they seem
+// else, the new max is the is the greater max
+// what to do if both are equal?
