@@ -20,6 +20,8 @@ console.log(str.hi)
 // then it is undefined
 
 //note that null and undefined types have no methods
+
+
 // ---------------------------------------------------------
 //                      Numbers
 // Two types - regular (64 bit 2^53-1 to -2^53+1) and bigInt
@@ -117,5 +119,78 @@ function floatRand(min, max){
     return randNumb;
 }
 // ---------------------------------------------------------
+//              Strings- strings are IMMUTABLE
+
+// single and double quotes mean the same, 
+// use `(backticks) to embedd vars and write multiline strings
+
+console.log(`1 + 2 = ${1+2}`)// gives 1+ 2 = 3
+let bulletlist = `list
+1. Something
+2. Something else
+3. Different something else`
+console.log(bulletlist);// will print the list as is
+
+// you know about special chars like \b \v \f \t \n ..etc
+
+// find length- its a property, not a method, so no ()
+console.log("how are you?".length)//12
+
+//find individual char
+console.log("something or else"[10]);//"o"-str at index 10
+console.log("something or else".at(10)) //"o"-str at index 10
+console.log("something or else".charAt(10))//returns str
+
+
+//convert toUpperCase() or toLowerCase()
+console.log("something or else".toUpperCase())
+console.log("sOmeTimes Or not TIMEs".toLowerCase())
+//sometimes or not times
+
+
+// searching for substring
+// str.indexOf(substr) -returns index of first match, or -1
+console.log("test me you SOB".indexOf("you")) //8
+console.log("test me you SOB".indexOf("nil")) //-1
+//str.indexOf(substr, startingsearchindex)--optional
+console.log("test me you SOB".indexOf("you", 9)) //-1
+
+// str.lastIndexOf(substr, position) also exists
+
+// str.includes(subst, pos) //pos is optional
+// returns true if str contains substr, else false
+console.log("test me you SOB".includes("you", 3))// true
+console.log("test me you SOB".includes("you", 9))// false
+
+// str.startWith(substr), str.endsWith(substr) do what they say
+console.log("test me you SOB".startsWith("you"))// false
+console.log("test me you SOB".endsWith("sob".toUpperCase()))//T
+
+// three ways to get substrings
+// 1.slice - str.slice(start [, end]) -end optional & strt<end
+// returns string from start to (not including) end
+console.log("something or else".slice(1))//omething or else
+console.log("something or else".slice(1, 3))// om
+console.log("something or else".slice(9, 20))// or else
+console.log("something or else".slice(20))// undefined
+//neg positions mean start counting from the right
+console.log("something or else".slice(-1, -3))//else
+
+// 2. str.substring(start, [, end])- end optional
+// same as slice, except start can be > end
+// incase start > end , it just swaps them
+console.log("something or else".substring(1, 3))//om
+console.log("something or else".substring(10, 1))//omething
+
+//to give the latin Alphabet
+let str = ""
+for(let i = 0; i<= 220; i++){
+    str += String.fromCodePoint(i);
+}
+console.log(str)
+
+//!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
 // ---------------------------------------------------------
 
+//this is helpful in remembering comparisons
+console.log("a" > "A")// true
