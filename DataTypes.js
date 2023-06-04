@@ -155,7 +155,10 @@ console.log("test me you SOB".indexOf("nil")) //-1
 //str.indexOf(substr, startingsearchindex)--optional
 console.log("test me you SOB".indexOf("you", 9)) //-1
 
-// str.lastIndexOf(substr, position) also exists
+// str.lastIndexOf(substr, position) also exists, finds the last index where
+// the substring occurs
+console.log("This is a callback to simpler times".indexOf("e"))// 27
+console.log("This is a callback to simpler times".lastIndexOf("e"))//3
 
 // str.includes(subst, pos) //pos is optional
 // returns true if str contains substr, else false
@@ -343,3 +346,469 @@ function findSum (myarr, left, right){
 // adding them and keeping a partial sum stored in an array. 
 //As soon as your sum becomes neg, set partial sum to zero
 // and keep choosing using Math.max()
+
+
+
+//---------------------------------------------------------------------
+//                      ARRAY-METHODS
+
+// splice - arr.splice(start, [,deleteCount, elem1, elem2 ,.. ,elemN])
+// deletes from start deleteCount number of elems and insert elm1, elm2...
+// into that place and returns the delete items 
+
+let arr = ["this", "language", "uses", "too", "many", "commas"]
+arr.splice(0, 2, "Javascript")//returns ['this', 'language']
+// arr = ['Javascript', 'uses', 'too', 'many', 'commas']
+
+//can also add by setting deleteCount to 0
+arr.splice(arr.length-1, 0, "!!!")
+//'Javascript', 'uses', 'too', 'many', '!!!', 'commas']
+
+
+//slice - arr.slice([start], [end]), neg values allowed
+//returns a new arr from start to (not including) end
+//default start is 0, default end is arr.length-1, arr.slice() creates
+//copy of array
+arr.slice(1, 3)// 'uses', 'too'], arr is the same
+arr.slice(-4)// reads from the end, returns ['too', 'many', '!!!', 'commas']
+
+
+
+//concat- arr.concat(arg1, arg2...), add args to arr, if any arg is array
+//then adds that arrays vals to arr. For objects with special property
+// Symbol.isConcatSpreadable = true, then its vals are also added,
+// else the objects are added as whole.
+//returns the arr
+
+arr.concat("1", "2", "3")
+//['Javascript', 'uses', 'too', 'many', '!!!', 'commas', '1', '2', '3']
+
+
+// arrays also have indexOf() and lastIndexOf() as as strings
+// indexOf searches from the front, lastIndexOf from the end
+
+
+//arrays also have includes(val)
+
+//finding objects with certain conditions
+// 
+let result = arr.find(function (item, index, array){
+    //if true is returned, item is returnd and iteration stops
+    //for falsy scenario returns undefined
+})
+// function is called for each item,
+
+let users = [
+    {id: 1, name: "something"},
+    {id: 2, name:"nothing"},
+    {id: 3, name:"madness"},
+]
+let userlist = users.find((val)=> val.id !== null)//will give
+// {id: 1, name: 'something'}
+
+// findIndex returns the index, instead of object like find
+// findLastIndex returns the last index, i.e first from the end
+userlist = users.findIndex(val => val.id ===3)// returns 2
+userlist = users.findLastIndex(val => val.id ===3)// returns 2 as well here
+
+
+//filter, like clojure filter, only select those values for which
+// the function returns a true value, syntax same as find
+userlist = users.filter(val=>val.id %2 ===0)//[{id: 2, name: 'nothing'}]
+
+
+// TRANFORMING AN ARRAY
+
+//map - arr.mapy(fn)-- syntax same as find
+arr = ["this", "language", "uses", "too", "many", "commas"]
+arr.map(item => item.length >= 5)
+// [false, true, false, false, false, true]
+
+
+// sort(fn)- sorts it in place based on fn, or default by converting to str
+let myarr = [1, 2 , 15, 4, 5]
+myarr.sort()// [1, 15, 2, 4, 5], cuz string are being compared, not numbers
+
+myarr.sort(function (a, b){
+    console.log(a + "<>" + b)
+    return a-b;
+}) //[1, 2, 4, 5, 15]
+
+// the comparer fn needs to take two values, and return
+// 1 if a>b, 0 if a==b, -1 if a<c. 
+myarr.sort((a,b)=>a-b)// //[1, 2, 4, 5, 15]
+
+//arr.reverse reverses the order of the string
+
+//str.split(delim) returns an arr with string
+// split along a specified delimiter
+let str = "now this is what I'm talking about huh??"
+str.split("a")// ['now this is wh', "t I'm t", 'lking ', 'bout huh??']
+
+// arr.join(glue) takes an array and returns the string of arr items
+// with glued between em
+
+let userList = [
+    {id: 1, name: "something"},
+    {id: 2, name:"nothing"},
+    {id: 3, name:"madness"},
+]
+userList.join(",,,,")
+//'[object Object],,,,[object Object],,,,[object Object]'
+userList = ["JavaScript", "is ", "so ", "very", "tedious"]
+userList.join(",")// 'JavaScript,is ,so ,very,tedious'
+
+
+// arr.reduce(fn)
+//heres the syntax
+let value = arr.reduce(function(accumulator, item, index, array){
+    //////////
+}, [initial])
+//initial is optional, and equals accumulator. item is the current item
+// index is the current index, array is....well array
+
+//like clojure, it returns (f(f(f...(f x [initial]) y)z) lastElem)
+userList = ["JavaScript", "is ", "so ", "very", "tedious"];
+userList.reduce((sum, current)=> sum+current, "")
+// 'JavaScriptis so verytedious'
+
+userList = [1, 2, 3, 4, 5, 6, 7]
+userList.reduce((sum, current)=> sum+ current)// 48
+
+//note that reduce will give error if arr is empty and initVal isnt given
+//arr.reduceRight(), starts from the right.
+
+// Array.isArray(object) returns true if obj is array, false otherwise
+
+Array.isArray(userList)//true
+Array.isArray({})// false
+
+// arr.some(fn)/ arr.every(fn) check the array and do the obvious
+
+//can use arr.every(fn) to compare to arrays
+function arraysEqual(arr1, arr2) {
+    return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+  }
+
+//create a function that removes all dashes and returns the string in
+//camelCase
+function camelize(str){
+    let x = str.split("-");
+    let empty = ""
+    for(let item of x){
+        
+        if (item !== ""){
+            empty += item[0].toUpperCase()+item.slice(1);
+        }    
+    }
+    return x[0]===""?  empty[0].toUpperCase() + empty.slice(1):empty[0].toLowerCase() + empty.slice(1)
+
+}
+
+
+//filterRange
+function filterRange(arr, start, end){
+    let x= arr.filter((val)=>{
+            if(val >=start && val < end)
+            //console.log(val)
+            return val;
+        })
+
+    return x
+
+}
+
+// filterRangeInPlace
+function filterRangeInPlace(arr, start, end){
+    let arr = arr.filter((val,index) =>{
+        if(val< start || val >= end){
+            arr.splice(arr[index], 1) 
+        }
+    })
+
+}
+
+//sort in decreasing order
+function revSort(arr){
+    return arr.sort((a, b)=>  b-a)
+}
+
+// copy and sort Array
+function copySorted(arr){
+    let x = [];
+    return x.concat(arr).sort((a,b)=>a-b)
+}
+
+// extendable calculator
+function Calculator(){
+    this.OpList = {
+        "+": (a, b)=> a+b,
+        "-": (a, b)=> a-b,
+    }
+    this.addMethod = function(strOp, fn){
+        this.OpList[strOp] = fn;
+    }
+    this.calculate =function (str){
+        let x = str.split(" ")
+        let a = +x[0];
+        let b = +x[2];
+        let Op = x[1];
+        return this.OpList[Op](a,b);
+    }
+}
+
+
+//given an array of objects with each obj having user.name, convert into 
+//convert into array of name
+
+function convertToNames(arr){
+    let x = [];
+    let i = 0;
+    for(let obj of arr){
+        x[i++] = obj.name
+    }
+    return x;
+}
+
+//given an arr of objs, with name, surname and id props, 
+// make new arr with name+surname, id as is
+function addNames(arr){
+    let initArr = [];
+    let counter = 0;
+    for(let obj of arr){
+        initArr[counter++] = {
+            fullName: (obj.name + " " + obj.surname), 
+            id: obj.id
+        }
+    }
+    return initArr;
+
+}
+//or using map
+function shortAddNames(arr){
+    return arr.map(user=> ({
+        fullName: `${user.name} ${user.surname}`,
+        id: user.id,
+    }))
+}
+
+//given array of objects, sort users by age
+function sortByAge(arr){
+    return arr.sort((userA,userB)=> userA.age - userB.age)
+}
+
+// write a function to shuffle(array)
+function shuffle(arr){
+    for(let counter = 0; counter<arr.length ;counter++){
+        let one = Math.round(counter + Math.random()*(arr.length-1))
+        
+        //swapping the arr[one], arr[i]
+        let temp = arr[counter];
+        arr[counter] = arr[one];
+        arr[one] = temp;
+        //console.log(arr)
+        console.log("count:" +counter + ",ar.le:" + arr.length)
+       
+    }
+}
+
+//or use the Fisher-Yates Shuffle
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+  
+      // swap elements array[i] and array[j]
+      // we use "destructuring assignment" syntax to achieve that
+      // you'll find more details about that syntax in later chapters
+      // same can be written as:
+      // let t = array[i]; array[i] = array[j]; array[j] = t
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+
+
+// write a fn to return avg of arr of objs with property age
+function getAverageAge(arr){
+    let sum = 0;
+    for(let obj of arr){
+        sum += +obj.age;
+    }
+    return sum/(arr.length)
+}
+
+
+// get unique items of an array
+function unique(arr){
+    let x = []
+    let index = 0;
+    for(let item of arr){
+        if(!x.includes(item))  
+            x.splice(index++, 0, item)
+    }
+    return x;
+}
+
+//given a arr of objs with props id: name: and age:, create a new arr with
+// id as the key and arr items as values
+function groupById(arr){
+    let x = {};
+    for(let obj of arr){
+        x[obj.id] = obj;
+        console.log(obj.id +":obj.id," +",obj:" +'obj')
+    }
+    return x
+}
+
+//using reduce
+function groupByIdReduce(arr){
+    return arr.reduce((accumulator, arrObj)=> {
+        accumulator[arrObj.id] = arrObj;
+        return accumulator;
+    },{})
+}
+
+
+// ------------------------------------------------------------------------
+//                  MAP AND SET
+
+//                      MAP- 
+//any time of key is possible, even objects, unlike regular objects
+//where each key is converted to string
+// Methods and properties are:
+
+// new Map() – creates the map.
+// map.set(key, value) – stores the value by the key, returns new map
+// map.get(key) – returns the value by the key, undefined if key doesn’t exist in map.
+let map = new Map();
+map.set(1,2).set(2,1).set(3,1)//can chain cuz set returns new map
+map.get(2)//returns 1
+//or
+map = new Map([
+    [1,2],
+    [2,3],
+    [3,4]
+])
+// map.has(key) – returns true if the key exists, false otherwise.
+// map.delete(key) – removes the element (the key/value pair) by the key.
+// map.clear() – removes everything from the map.
+// map.size – returns the current element count.
+//NOTE: Insertion order is maintained
+// differs from objects in two ways, 
+// key can be any val, and.. I'll have to come back
+
+//map.keys() returns an iterable of keys, NOT AN ARRAY, 
+// use Array.from(map.keys()) to get an array from iterables
+//map.values() returns an iterable of values,
+//map.entries() returns an iterable of [key, value] pairs
+
+//converting an object into a map
+let obj = {name: "right", surname:"here"};
+let mymap = new Map(Object.entries(obj));
+mymap;//Map(2) {'name' => 'right', 'surname' => 'here'}
+
+//converting a map into an object
+mymap = new Map();
+obj = Object.fromEntries(myamp)// {1: 2, 2: 3, 3: 4}
+
+// forEach method exists
+mymap.forEach((value,key,map)=>{console.log(value)})
+
+//                       SET
+//collection of unique values, can be objs
+// Its main methods are:
+
+// new Set([iterable]) – creates the set, and if an iterable object is 
+//provided (usually an array), copies values from it into the set.
+let set = new Set([1,2,2,3,3,4,5]);//{1, 2, 3, 4, 5}
+// set.add(value) – adds a value, returns the set itself.
+// set.delete(value) – removes the value, returns true if value existed at the moment of the call, otherwise false.
+// set.has(value) – returns true if the value exists in the set, otherwise false.
+// set.clear() – removes everything from the set.
+// set.size – is the elements count
+
+//set also has a forEach function
+set.forEach((value, valueAgain, set)=>{
+    console.log(value)
+})
+
+//for compatiblity reasons, set.keys() gives iterable object for values,
+// set.values() gives iterable object for values,
+// set.entries() returns an iterable of [value, value]
+
+// Write a function aclean(arr) that returns an array cleaned from anagrams.
+function aclean(arr){
+    let map = new Map();
+    arr.forEach((val)=>{
+        let sorted = val.toLowerCase().split("").sort().join("");
+        console.log(map)
+        map.set(sorted,val);
+    });
+    return Array.from(map.values());
+}
+
+
+// Create a function unique(arr) that should return an 
+// array with unique items of arr
+function unique(arr){
+    let set = new Set(arr);
+    return set;
+}
+
+//-------------------------------------------------------------------
+//      SKIPPED WEAKMAPS AND WEAKSETS
+
+
+
+//-------------------------------------------------------------------
+//          OBJECT.KEYS, VALUES, ENTRIES
+
+//salary object with arbitrary number of salaries
+//fn to returns sum of all salaries using object.values and for...of loop
+
+function sumSalaries(obj){
+    let newSal = Object.values(obj);
+    let sum = 0;
+    for(let x of newSal){
+        sum += x;
+    }
+    return sum;
+}
+
+//Write a function count(obj) that returns the number of properties 
+//in the object:
+function count(obj){
+    let iter = Object.entries(obj);
+    return iter.length
+}
+
+
+// ------------------------------------------------------------------
+//              DESTRUCTURING ASSIGNMENT - just like clojure
+// Two types, array destructuring and object destructuring
+
+// Array Destructuring
+// syntax
+//let [item1 = default, item2, ...rest] = array;
+// item1 is assigned to the first item of array, if array[0] doesn't exist
+// then item1 is assigned default val. Same for item2, except no default val,
+// only undefined if arr[1] doesn't exist
+// ...rest(... is the spread operator) is an array assigned to rem elems of
+// array
+// default values can be object or even function calls
+let [x = prompt("something", y = prompt("something else"))] = ["jules"]
+console.log(x, y)
+
+let [p = "testing", ...rem] = [1,2,3,4,5]// rem = [2,3,4,5]
+
+let s, r, t;
+[s,r,t] = [1,2,3]// s == 1, r==2, t==3
+
+
+
+//Object Destructing
+
+
+
+
+//Nested Destructuring and smart functions
