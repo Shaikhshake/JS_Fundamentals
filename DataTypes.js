@@ -879,4 +879,30 @@ function topSalaries(obj){
     return rest.sort((a,b)=> a[1]-b[1])[rest.length-1][0]
 }
 
+// ---------------------------------------------------------------------
+//              DATE-TIME - SKIPPING, WILL COME BACK LATER
+
+
+// ---------------------------------------------------------------------
+//                      JSON 
+// use JSON.stringify(obj)
+// skips some js specific props, like funcs, symbolic keys & vals, 
+// and props that store undefined
+
+//can handle, objects, arrays,primitives(num, str, bool,null)
+//can also handle nested objects, all strings have "", no single '
+
+// to convert from obj to JSON use JSON.stringify(obj)
+let user = {
+    name: "John Smith",
+    age: 35
+  };
+let nigh = JSON.stringify(user)//  '{"name":"John Smith","age":35}'
+user = JSON.parse(nigh)// {name: 'John Smith', age: 35}
+// to convert JSON to obj use JSON.parse(obj)
+
+//THERE MUST BE NO CIRCULAR REFERENCE
+
+
+
 
