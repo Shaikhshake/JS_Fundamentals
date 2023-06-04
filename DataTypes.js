@@ -803,12 +803,80 @@ let [p = "testing", ...rem] = [1,2,3,4,5]// rem = [2,3,4,5]
 
 let s, r, t;
 [s,r,t] = [1,2,3]// s == 1, r==2, t==3
+let old = 2;
+let notold = 3;
+[old, notold] = [notold, old]// switching without a temp variable
 
 
+//Object Destructing -- need to match properties 
+let {title, name, nothing} = {title: "something", name: "randy"}
+console.log(title, name, nothing)// something randy undefined
+//nothing is undefined cuz there is no prop called nothing
+//order doesn't matter, only name, and default can be given like this
+let {pipe="down", whistle} = {whistle:1}// pipe = down, whistle => 1
 
-//Object Destructing
+//can assign special names to props like this
+let {nice: noice, most = "def", turtle} = {nice: "little", turtle: "wimpy"}
+console.log(noice, nice, most, turtle)//nice isnt defined, wont work
+console.log(noice, most, turtle)//little def wimpy
 
+//combine naming and defaults like this
+let {some: hmm = "neat", little, winter} = {little: "turtle", winter: 999}
+console.log(hmm, little, winter)// neat turtle 999
+
+// can do this,
+let dol, y, z;
+({dol, y: yeezy = 10, z = "iphone"}={dol: "yosemite"})
+console.log(dol, yeezy, z)// yosemite 10 iphone
+//cant do {dol, y: yeezy = 10, z = "iphone"}={dol: "yosemite"}, 
+// cuz js ^^consider the first {}          ^^ to be a code block
+// thus giving an error
+
+//.. note that the rest parameter ...rest also works here, giving an object
+let {pip, ...remainder} = {random: "not random", 'not':"inside", "but": "only","situation": 1}
+//pip = undefined
+//remainder = {random: 'not random', not: 'inside', but: 'only', 
+//             situation: 1}
 
 
 
 //Nested Destructuring and smart functions
+// just like clojure, but clunkier
+let myobj = {1: "relative", name:"rahul", witche: [1,2,3], block: {spent: null}}
+
+let {1: round, witche: [one, ...rest], block: {spent} } = myobj
+console.log(round, one, rest, spent)
+// relative, 1, [2,3], null
+
+
+//smart functions
+// use the following way to destructure the args you pass to functions
+// tip is to send object as args
+let objekk = {
+    name: "shaikh",
+    age: 10101
+}
+function showMe({name, age = 111, title= "slacker", XP = null}){
+    console.log(`name: ${name}, age: ${age}, title: ${title}, xp: ${XP}`)
+}
+
+showMe(objekk);  //name: shaikh, age: 10101, title: slacker, xp: null
+//if the default vals are fine, then you have to pass an empty obj
+// to make sure that all values can be destructured
+//do this instead
+                                                                // ↓↓↓
+function newShowMe({name, age = 111, title= "slacker", XP = null} = {}){
+    console.log(`name: ${name}, age: ${age}, title: ${title}, xp: ${XP}`)
+}
+// this provides a default for the object we're passing so now
+showMe()// works
+
+// given an object with salaries, give a fn to find name of max salary 
+// must return null if nothing is passed
+function topSalaries(obj){
+    if(obj == undefined) return null;
+    let [...rest] =Object.entries(obj)
+    return rest.sort((a,b)=> a[1]-b[1])[rest.length-1][0]
+}
+
+
