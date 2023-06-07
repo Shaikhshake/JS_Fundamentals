@@ -902,7 +902,4 @@ user = JSON.parse(nigh)// {name: 'John Smith', age: 35}
 // to convert JSON to obj use JSON.parse(obj)
 
 //THERE MUST BE NO CIRCULAR REFERENCE
-
-
-
-
+// that all I'm going to do for this part. Will come back to later when need arises.
