@@ -57,11 +57,69 @@ users.sort(byField('name'))
 // ]
 
 // -------------------------------------------------------------------------------------------------
+//      The old Var, don't need it anymore
+// -------------------------------------------------------------------------------------------------
+//      Global object
+// called window in NodeJs, global in other environments
+// type window into the console and see the results
+window.document// will give the current page as a doc
+// can set properties using
+window.testname = "john"// creates a special prop called testname: "john"
+// can be used for polyfills
+if(!window.Promise){
+    //custom implementation of Promise feature
+}
+// -------------------------------------------------------------------------------------------------
+//              Function Object, NFE
+// Js functions are objects, i.e they can be add/remove properties, pass by reference, etc
+// fn.name property gives the name of the function
+let saysomething = function test(){
+
+}
+console.log(saysomething.name)// returns test
+
+// function created inside array
+let arrr = [function() {}];
+
+alert( arr[0].name ); // <empty string>
+// the engine has no way to set up the right name, so there is none
+
+
+// length property gives the number of parameters
+function f(a,b, ...c){
+
+}
+f.length// 2, rest parameters arent counted
+
+
+// NFE - Named function expression
+let saysay = function (one){} // not an NFE
+saysay = function fn(one){} // an nfe
+// -------------------------------------------------------------------------------------------------
+//                  new Function syntax
+// syntax-->let func = new Function([arg1, arg2, ...argN], functionbody);
+// functionBody is string, this is used when server returns a string that ought to be
+// run as code
+let sum = new Function("a", "b", "return a-b");
+sum(1,2)// -1
+
+//note that function body has access to only local and global scope, and anything outside of those,
+// two will not be in function body's lexical environment
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------
+//              Scheduling: setTimeout, setInterval
+//
+//syntax ->let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
+// pass a REFERENCE to a func(dont run the funct), delay is optional(default 0) and in milisec
+// args are optional
+
+let pepe = setTimeout((val)=>val+1, 1000, 22) //will execute once
+clearTimeout(pepe)// will cancel the function execution
+
+//syntax -> let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
+// repeats function execution after given delay
+let pepe1 = setInterval((val)=> val+1, 1000, 22)//
+clearInterval(pepe1)
 
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
