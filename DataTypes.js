@@ -158,7 +158,7 @@ console.log("test me you SOB".indexOf("you", 9)) //-1
 // str.lastIndexOf(substr, position) also exists, finds the last index where
 // the substring occurs
 console.log("This is a callback to simpler times".indexOf("e"))// 27
-console.log("This is a callback to simpler times".lastIndexOf("e"))//3
+console.log("This is a callback to simpler times".lastIndexOf("e"))//33
 
 // str.includes(subst, pos) //pos is optional
 // returns true if str contains substr, else false
@@ -177,9 +177,9 @@ console.log("something or else".slice(1, 3))// om
 console.log("something or else".slice(9, 20))// or else
 console.log("something or else".slice(20))// undefined
 //neg positions mean start counting from the right
-console.log("something or else".slice(-1, -3))//else
+console.log("something or else".slice(-1, -3))//undefined cuz strt>end
 
-// 2. str.substring(start, [, end])- end optional
+// 2. str.substring(start [, end])- end optional
 // same as slice, except start can be > end
 // incase start > end , it just swaps them
 console.log("something or else".substring(1, 3))//om
@@ -224,6 +224,8 @@ function truncate(str, maxlength){
     }else{
         return str.slice(0, maxlength-1) + "..."
     }
+    //does the same thing
+    // return str.length<=maxlength ? str: str.slice(0,maxlength -1) + "..."
 }
 
 //function to convert money strings into numbers
@@ -237,6 +239,9 @@ function extractCurrencyValue(str){
             return Number(str.slice(0)) 
         }else return "not a valid input"
     }
+//     does the same thing
+//     res = Number(str.slice(1))
+//     return res==NaN? "Not a number": res 
 }
 // ---------------------------------------------------------
 //                  ARRAYS - are just objects
@@ -314,6 +319,8 @@ function sumInput(){
 // for each size, look up the largest, the among those, 
 // select the largest
 
+[1, -2, 3 ,4,2,0,-4]
+
 function maxSub(arr){
     let thisSizeLargest = 0;
     let innerlargest = [];
@@ -390,7 +397,7 @@ arr.concat("1", "2", "3")
 
 //arrays also have includes(val)
 
-//finding objects with certain conditions
+//finding objects with certain conditions(.find returns the first match)
 // 
 let result = arr.find(function (item, index, array){
     //if true is returned, item is returnd and iteration stops
@@ -412,14 +419,14 @@ userlist = users.findIndex(val => val.id ===3)// returns 2
 userlist = users.findLastIndex(val => val.id ===3)// returns 2 as well here
 
 
-//filter, like clojure filter, only select those values for which
+//filter, like clojure filter, only selects those values for which
 // the function returns a true value, syntax same as find
 userlist = users.filter(val=>val.id %2 ===0)//[{id: 2, name: 'nothing'}]
 
 
 // TRANFORMING AN ARRAY
 
-//map - arr.mapy(fn)-- syntax same as find
+//map - arr.map(fn)-- syntax same as find
 arr = ["this", "language", "uses", "too", "many", "commas"]
 arr.map(item => item.length >= 5)
 // [false, true, false, false, false, true]
@@ -455,25 +462,27 @@ let userList = [
 ]
 userList.join(",,,,")
 //'[object Object],,,,[object Object],,,,[object Object]'
-userList = ["JavaScript", "is ", "so ", "very", "tedious"]
+userList = ["JavaScript ", "is ", "so ", "very ", "tedious"]
 userList.join(",")// 'JavaScript,is ,so ,very,tedious'
 
 
 // arr.reduce(fn)
 //heres the syntax
-let value = arr.reduce(function(accumulator, item, index, array){
+let value = arr.reduce(function(accumulator, item, [index], [array]){
     //////////
 }, [initial])
 //initial is optional, and equals accumulator. item is the current item
-// index is the current index, array is....well array
+// index is the current index, array is, well, array
 
 //like clojure, it returns (f(f(f...(f x [initial]) y)z) lastElem)
 userList = ["JavaScript", "is ", "so ", "very", "tedious"];
-userList.reduce((sum, current)=> sum+current, "")
+userList.reduce((sum, current)=> sum+current,'')
 // 'JavaScriptis so verytedious'
 
 userList = [1, 2, 3, 4, 5, 6, 7]
-userList.reduce((sum, current)=> sum+ current)// 48
+userList.reduce((sum, current)=> {
+    console.log(`sum: ${sum} current: ${current}`); 
+    return sum+ current})// 28
 
 //note that reduce will give error if arr is empty and initVal isnt given
 //arr.reduceRight(), starts from the right.
@@ -493,16 +502,18 @@ function arraysEqual(arr1, arr2) {
 //create a function that removes all dashes and returns the string in
 //camelCase
 function camelize(str){
-    let x = str.split("-");
-    let empty = ""
-    for(let item of x){
+    // let x = str.split("-");
+    // let empty = ""
+    // for(let item of x){
         
-        if (item !== ""){
-            empty += item[0].toUpperCase()+item.slice(1);
-        }    
-    }
-    return x[0]===""?  empty[0].toUpperCase() + empty.slice(1):empty[0].toLowerCase() + empty.slice(1)
+    //     if (item !== ""){
+    //         empty += item[0].toUpperCase()+item.slice(1);
+    //     }    
+    // }
+    // return x[0]===""?  empty[0].toUpperCase() + empty.slice(1):empty[0].toLowerCase() + empty.slice(1)
 
+    let c = str.split('-')
+    return c.filter(val => val != '').map((item, index)=>  { return item[0].toUpperCase()+item.slice(1,item.length)}).join("")
 }
 
 
@@ -566,6 +577,7 @@ function convertToNames(arr){
     let i = 0;
     for(let obj of arr){
         x[i++] = obj.name
+        //x.push(obj.name) also works
     }
     return x;
 }
@@ -651,14 +663,16 @@ function unique(arr){
 
 //given a arr of objs with props id: name: and age:, create a new arr with
 // id as the key and arr items as values
+test = [{id: 1, name: "ss"}, {id : 2, name: "ssherhe"}, {id : 3, name: "twwdw"}] 
 function groupById(arr){
     let x = {};
     for(let obj of arr){
         x[obj.id] = obj;
-        console.log(obj.id +":obj.id," +",obj:" +'obj')
+        console.log(obj.id +":obj.id," +",obj:" +obj)
     }
     return x
-}
+}//returns
+
 
 //using reduce
 function groupByIdReduce(arr){
@@ -667,13 +681,21 @@ function groupByIdReduce(arr){
         return accumulator;
     },{})
 }
+//returns 
+// Object { 1: {…}, 2: {…}, 3: {…} }
+// ​
+// 1: Object { id: 1, name: "ss" }
+// ​
+// 2: Object { id: 2, name: "ssherhe" }
+// ​
+// 3: Object { id: 3, name: "twwdw" }
 
 
 // ------------------------------------------------------------------------
 //                  MAP AND SET
 
 //                      MAP- 
-//any time of key is possible, even objects, unlike regular objects
+//any type of key is possible, even objects, unlike regular objects
 //where each key is converted to string
 // Methods and properties are:
 

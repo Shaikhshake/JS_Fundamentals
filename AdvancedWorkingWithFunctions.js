@@ -65,7 +65,9 @@ users.sort(byField('name'))
 window.document// will give the current page as a doc
 // can set properties using
 window.testname = "john"// creates a special prop called testname: "john"
-// can be used for polyfills
+// can be used for polyfills which is 
+// custom implementation of the modern language feature
+
 if(!window.Promise){
     //custom implementation of Promise feature
 }
