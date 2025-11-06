@@ -184,3 +184,4 @@ class Clock{
 let newClock = new Clock({template:"h:m:s"});
 newClock.start()
 setInterval(newClock.stop, 5000)
+
